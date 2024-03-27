@@ -27,7 +27,7 @@ class AdvertiserController extends Controller
 
     public function tasks(){
     
-      return view('advertiser.tasks.tasks', 
+      return view('advertiser.tasks.view', 
        ['tasks' => SpladeTable::for(Tasks::where('user_id', Auth::id()))
         ->column('details', sortable: true, canBeHidden: false)
         ->withGlobalSearch(columns: ['name'])
@@ -217,12 +217,9 @@ class AdvertiserController extends Controller
 
     public function edit($id){
 
-      $task = Tasks::with('actions')->find($id);
-
-      if ($task) {
-        $task->actions()->sync([$task->task_id]);
-    }
-    //dd($task->id);
+      $task = Tasks::with('actions')->find($id);  
+      
+    //dd($task->actions->pluck('id')->toArray());
        //unset($task->actions);
        //dd($task);
 

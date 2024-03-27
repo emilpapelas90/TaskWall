@@ -1,4 +1,4 @@
-<x-new-app-layout>
+<x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Tasks') }}
@@ -54,12 +54,12 @@
 
           <div class="flex flex-col mt-3">
            <h2 class="text-gray-800 block font-sans text-md antialiased font-semibold leading-snug tracking-normal mb-1">Status:</h2>
-           @if($task->status === 0)
-           <span class="text-yellow-600 text-m font-semibold rounded">Pending</span>  
-           @elseif($task->status === 1)
-           <span class="text-green-600 text-m font-semibold rounded">Approved</span>  
+           @if($task->status == 0)
+           <span class="align-middle select-none font-sans font-medium transition-all text-sm text-amber-900">Pending</span>  
+           @elseif($task->status == 1)
+           <span class="align-middle select-none font-sans font-medium transition-all text-sm text-green-900">Approved</span>  
            @else
-           <span class="text-red-600 text-m font-semibold rounded">Rejected</span>  
+           <span class="align-middle select-none font-sans font-medium transition-all text-sm text-red-900">Rejected</span>  
            @endif
           </div>
 
@@ -81,11 +81,11 @@
 
           <h2 class="text-gray-800 block font-sans text-md antialiased font-semibold leading-snug tracking-normal mt-3 mb-1">Actions:</h2>
           <div class="flex gap-2">
-            <Link href="{{ route('task.edit', $task->id) }}" class="flex items-center select-none rounded-md bg-blue-500 py-2 px-3 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none">
+            <Link href="{{ route('task.edit', $task->id) }}" class="flex items-center select-none rounded-md bg-blue-500 py-1.5 px-3 text-center align-middle font-sans text-xs font-bold text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none">
              <x-ri-pencil-fill class="w-4 h-4 mr-1"/>
              Edit
             </Link>
-            <Link href="{{ route('task.destroy', $task->id) }}" method="DELETE" confirm="Delete the following Task {{$task->name}}" confirm-text="Are you sure?" confirm-button="Yes" cancel-button="No" class="flex items-center select-none rounded-md bg-red-500 py-2 px-3 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none">
+            <Link href="{{ route('task.destroy', $task->id) }}" method="DELETE" confirm="Delete the following Task {{$task->name}}" confirm-text="Are you sure?" confirm-button="Yes" cancel-button="No" class="flex items-center select-none rounded-md bg-red-500 py-1.5 px-3 text-center align-middle font-sans text-xs font-bold text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none">
              <x-ri-delete-bin-6-fill class="w-4 h-4 mr-1"/>
              Delete
             </Link>
@@ -111,4 +111,4 @@
         </x-splade-table>
 
       </div>
-</x-new-app-layout>    
+</x-app-layout>    

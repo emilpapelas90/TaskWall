@@ -12,7 +12,7 @@ class Tasks extends Model
 
     public function actions()
     {
-      return $this->hasMany(TaskActions2::class, 'task_id');
+      return $this->hasMany(TaskActions2::class, 'task_id', 'id');
     }
   
     public function submission()

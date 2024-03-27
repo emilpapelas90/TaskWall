@@ -1,4 +1,4 @@
-<x-new-app-layout>
+<x-app-layout>
   <x-slot name="header">
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
       {{ __('Create Placement') }}
@@ -33,12 +33,15 @@
      </div>
     </div>
 
-    <div v-show="openTab.tab1" class="p-">
+    <div v-show="openTab.tab1">
      <h2 class="text-2xl text-gray-800 font-sans font-semibold">General</h2>
-     <p class="block font-sans text-sm antialiased font-light leading-relaxed text-blue-gray-500 mb-4">Tell us about your app or placement.</p>
+     <p class="block font-sans text-sm antialiased font-light leading-relaxed text-gray-500 mb-4">Tell us about your app or placement.</p>
       <div class="grid grid-cols-1 md:grid-cols-6 gap-1">
 
-       <x-splade-input class="col-span-6 md:col-span-4" name="name" type="text" :label="__('Placement Name:')" placeholder="Placement Name"/>
+       <div class="col-span-6 md:col-span-4">
+        <x-splade-input name="name" type="text" :label="__('Placement Name:')"/>
+        <p class="text-gray-500 text-xs italic mt-1">Name of your placement.</p>
+       </div>
 
        <x-splade-select class="col-span-6 md:col-span-2" name="category" :label="__('Category:')">
         <option value="" disabled>Select an category</option>
@@ -48,18 +51,18 @@
        </x-splade-select>
 
        <div class="col-span-6 mt-2">
-        <x-splade-input name="url" type="text" :label="__('Website Url:')" placeholder="Website Url"/>
+        <x-splade-input name="url" type="text" :label="__('Website Url:')"/>
         <p class="text-gray-500 text-xs italic mt-1">This is your website address where the wall will be placed, for example https://example.com.</p>
        </div>
 
        <div class="col-span-6 md:col-span-3 mt-2">
-        <x-splade-input id="currency" name="currency" type="text" :label="__('Currency Name:')" placeholder="Currency Name eg(Points, Gems, Diamonds. etc)"/>
-        <p class="text-gray-500 text-xs italic mt-1">This is your currency name that users will see when they withdraw to your website. For example: points OR cents.</p>
+        <x-splade-input id="currency" name="currency" type="text" :label="__('Currency Name:')"/>
+        <p class="text-gray-500 text-xs italic mt-1">This is your currency name that users will see when they withdraw to your website. For example: Points or Cents.</p>
        </div>
-
+     
        <div class="col-span-6 md:col-span-3 mt-2">
-        <x-splade-input id="rate" name="rate" type="number" :label="__('Currency Rate:')" placeholder="Currency Rate"/>
-        <p class="text-gray-500 text-xs italic mt-1">$1 = X currency to your users? For example want to give 70% profit to your users and your currency is "Cent" then you need to put 30 above and your users would get 70 "Cent" and you get $1 USD.</p>
+        <x-splade-input id="rate" name="rate" type="number" :label="__('Currency Rate:')"/>
+        <p class="text-gray-500 text-xs italic mt-1">If an offer payout is <span class="font-semibold text-green-600">$1.00</span>, the user will receive <span class="font-semibold" v-text="form.rate"></span> <span class="font-semibold" v-text="form.currency"></span> .</p>
        </div>
 
        <div class="col-span-6 mt-2 border border-blue-gray-100 shadow-md rounded-md">
@@ -68,67 +71,73 @@
         <table class="table-auto min-w-full">
          <thead class="bg-gray-100 border-y">
           <tr>
-           <th class="text-sm font-medium text-gray-900 px-6 py-2 text-left">TaskWall <span id="currencyout"></span></th>
-           <th class="text-sm font-medium text-gray-900 px-6 py-2 text-left"><span id="currencyout"></span> that Owner Earns</th>
-           <th class="text-sm font-medium text-gray-900 px-6 py-2 text-left"><span id="currencyout"></span> paid to User</th>
+           <th class="text-sm font-medium text-gray-900 px-6 py-2 text-left"><span class="flex">TaskWall<p class="ml-1" v-text="form.currency"></p></span></th>
+           <th class="text-sm font-medium text-gray-900 px-6 py-2 text-left">Owner Earns</th>
+           <th class="text-sm font-medium text-gray-900 px-6 py-2 text-left"><span class="flex"><p class="mr-1" v-text="form.currency"></p>paid to User</span></th>
           </tr>
          </thead>
          <tbody>
-          @for ($i = 0; $i < 3; $i++)
           <tr class="bg-white border-b">
-           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">100 </td>
+           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">100</td>
            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">$0.01</td>
-           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">7 <span id="currencyout"></span></td>
+           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"><span class="flex"><span v-if="form.rate != null" v-text="0.01 * form.rate" class="mr-1"></span><p v-text="form.currency"></p></span></td>
           </tr>
-          @endfor
+          <tr class="bg-white border-b">
+           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">1,000</td>
+           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">$0.10</td>
+           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"><span class="flex"><span v-if="form.rate != null" v-text="0.10 * form.rate" class="mr-1"></span><p v-text="form.currency"></p></span></td>
+          </tr>
+          <tr class="bg-white border-b">
+           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">10,000</td>
+           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">$1</td>
+           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"><span class="flex"><span v-if="form.rate != null" v-text="1 * form.rate" class="mr-1"></span><p v-text="form.currency"></p></span></td>
+          </tr>
          </tbody>
         </table>
        </div>
 
-       <span id="rateout"></span>
-       <span id="currencyout"></span>
 
+       <x-splade-input class="col-span-6 mt-2" name="postback" type="text" :label="__('Postback Url:')"/>
+       <p class="col-span-6 text-gray-500 text-xs italic">This is the URL we will send a GET request to when a user withdraws earnings to your website.</p>
 
-       <x-splade-input class="col-span-6 mt-2" name="postback" type="text" :label="__('Postback Url:')" placeholder="Postback Url"/>
-       <p class="col-span-6 text-gray-500 text-xs italic mt-">This is the URL we will send a GET request to when a user withdraws earnings to your website.</p>
-       
       </div>
     </div>
 
-    <div v-show="openTab.tab2" class="p-4">
-      <h2 class="text-2xl font-semibold mb-2 text-blue-600">Section 2 Content</h2>
-      <p class="text-gray-700">Proin non velit ac purus malesuada venenatis sit amet eget lacus. Morbi quis purus id ipsum ultrices aliquet Morbi quis.</p>
+    <div v-show="openTab.tab2">
+     <h2 class="text-2xl text-gray-800 font-sans font-semibold">Promotion</h2>      
+     <p class="block font-sans text-sm antialiased font-light leading-relaxed text-gray-500 mb-4">Increase the amount of Currency for your Placement for a Limited time.</p>
+      <div class="grid grid-cols-1 md:grid-cols-6 gap-1">
+
+       <x-splade-input class="col-span-6" name="message" type="text" :label="__('Display Message:')"/>
+       <p class="col-span-6 text-gray-500 text-xs italic mt-1 mb-2">Message that you want to display to your users.</p>
+
+       <div class="col-span-6 md:col-span-2">
+        <x-splade-input name="start_at" :label="__('Start:')" date time/>
+        <p class="text-gray-500 text-xs italic mt-1">Date when Promotion will Start.</p>
+       </div>
+
+       <div class="col-span-6 md:col-span-2">
+        <x-splade-input name="end_at" :label="__('End:')" date time/>
+        <p class="text-gray-500 text-xs italic mt-1">Date when Promotion will End.</p>
+       </div>
+
+       <div class="col-span-6 md:col-span-2">
+        <x-splade-input name="percentage" type="number" :label="__('Increase %:')"/>
+        <p class="text-gray-500 text-xs italic mt-1">Enter the percentage increase you would like to reward your users during this promotion.</p>
+       </div>
+
+      </div>
     </div>
 
-    <div v-show="openTab.tab3" class="p-4">
-      <h2 class="text-2xl font-semibold mb-2 text-blue-600">Section 3 Content</h2>
-      <p class="text-gray-700">Fusce hendrerit urna vel tortor luctus, nec tristique odio tincidunt. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.</p>
+    <div v-show="openTab.tab3">
+      <h2 class="text-2xl text-gray-800 font-sans font-semibold">Section 3 Content</h2>
+      <p class="text-gray-500">Fusce hendrerit urna vel tortor luctus, nec tristique odio tincidunt. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.</p>
     </div>      
     
     <div class="mt-4">
-     <x-splade-submit :label="__('Submit Placement')" />
+     <x-splade-submit :label="__('Submit')" />
     </div>
-    
+
    </x-splade-form>
   </div>
-</x-new-app-layout>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var rateInput = document.getElementById('rate');
-        var currencyInput = document.getElementById('currency');
-
-        var rate = document.getElementById('rateout');
-        var currency = document.getElementById('currencyout');
-
-        rateInput.addEventListener('input', function() {
-          var rateValue = rateInput.value;
-          rate.textContent = rateValue;
-        });
-
-        currencyInput.addEventListener('input', function() {
-          var currencyValue = currencyInput.value;
-          currency.textContent = currencyValue;
-        });
-    });
-</script>
+</x-app-layout>

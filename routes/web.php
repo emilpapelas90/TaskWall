@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PublisherController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AdvertiserController;
 
 /*
@@ -41,7 +42,12 @@ Route::middleware('splade')->group(function () {
         Route::get('/placement/create', [PublisherController::class, 'create'])->name('placement.create');
         Route::post('/placement_add', [PublisherController::class, 'add_placement'])->name('placement.add');
 
-        Route::get('/placement/{id}/edit', [PublisherController::class, 'edit'])->name('placement.create');
+        Route::get('/placement/{id}/edit', [PublisherController::class, 'edit'])->name('placement.edit');
+        Route::patch('/placement/{id}/update', [PublisherController::class, 'update'])->name('placement.update');
+
+        Route::delete('/placement/{id}/delete', [PublisherController::class, 'delete'])->name('placement.destroy');
+
+        Route::delete('/promo/{id}/delete', [PublisherController::class, 'promo_delete'])->name('promo.destroy');
 
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -51,6 +57,16 @@ Route::middleware('splade')->group(function () {
 
 
     Route::middleware('auth')->group(function () {
+
+        Route::get('/advertiser/add_funds', [PaymentController::class, 'funds'])->name('funds');
+        Route::post('/add_funds', [PaymentController::class, 'add_funds'])->name('add_funds');
+        Route::get('/success', [PaymentController::class, 'success'])->name('success');
+        Route::get('/cancel', [PaymentController::class, 'cancel'])->name('cancel');
+
+        Route::get('/stripe_success', [PaymentController::class, 'stripe_success'])->name('stripe_success');
+        Route::get('/stripe_cancel', [PaymentController::class, 'stripe_cancel'])->name('stripe_cancel');
+
+        Route::get('/purchase/success', [PaymentController::class, 'summary'])->name('summary');
 
         Route::get('/advertiser/dashboard', [AdvertiserController::class, 'dashboard'])->name('ad_dashboard');
 
