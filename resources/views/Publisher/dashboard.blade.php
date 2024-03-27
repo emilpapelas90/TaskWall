@@ -63,7 +63,7 @@
      <div class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 border border-blue-gray-100 shadow-sm">
       <div class="relative bg-clip-border mt-4 mx-4 rounded-xl overflow-hidden bg-white text-gray-700">
 
-       <apexchart v-bind="@js($chart)" />
+       <apexchart v-bind="@js($chart)"/>
 
       </div>
       <div class="p-6 px-6 pt-0"><h6 class="block antialiased tracking-normal font-sans text-base font-semibold leading-relaxed text-blue-gray-900">Website View</h6><p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Last Campaign Performance</p></div>
